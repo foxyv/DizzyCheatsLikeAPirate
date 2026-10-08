@@ -64,3 +64,7 @@ Config: `BepInEx\config\com.dizzy.sailwind.cheats.cfg`
 ## Install
 
 Requires Sailwind + [BepInEx 5](https://thunderstore.io/c/sailwind/p/BepInEx/BepInExPack/) (Thunderstore BepInExPack recommended). Extract `Dizzy.Cheats` into `BepInEx\plugins\`. Restart Sailwind and check `BepInEx\LogOutput.log`.
+
+## License
+
+See [LICENSE](LICENSE).

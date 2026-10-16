@@ -43,7 +43,7 @@ namespace Dizzy.Cheats
                 "Hotkeys",
                 "PanelKey",
                 KeyCode.BackQuote,
-                "Open or close the cheat panel: cheat switches, sliders to set food, water, sleep, vitamins and protein, and buttons to add or remove each currency. The default is the ` key (left of 1). It only opens during play, not in the Esc menu, so it can share ` with Sailwind Console, which only opens in the Esc menu.");
+                "Open or close the cheat panel: cheat switches, sliders to set food, water, sleep, vitamins and protein, buttons to add or remove each currency, and a searchable window to spawn items. The default is the ` key (left of 1). It only opens during play, not in the Esc menu, so it can share ` with Sailwind Console, which only opens in the Esc menu.");
 
             FlyKey = config.Bind(
                 "Hotkeys",

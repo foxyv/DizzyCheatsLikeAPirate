@@ -14,7 +14,7 @@ Deploy the DLL into your ModPack with the sailwind-modpack-deploy skill, not int
 
 | Key | Does |
 |-----|------|
-| `` ` `` | Open the cheat panel (switches, motor status, needs sliders, gold) |
+| `` ` `` | Open the cheat panel (switches, motor status, needs sliders, gold, spawn an item) |
 | `V` | Fly on / off |
 | `B` | Super speed on / off (walk, run, swim and fly x4) |
 | `H` | God mode on / off (turning it on with this key also fills every need) |
@@ -52,6 +52,14 @@ The panel has a slider for each need. With god mode on, a need stays where you s
 ### Gold
 
 The panel has a row for each of the four currencies: Al'Ankh Lions, Emerald Dragons, Aestrin Crowns and Gold Lions. Pick an amount (100, 1,000, 10,000 or 100,000), then press **Add** or **Remove** on a row. Remove stops at 0.
+
+### Spawn an item
+
+**Spawn an Item** at the bottom of the panel opens a second window. Type part of an item's name, its prefab name or its prefab number, then press **Spawn** on a row. The item appears about 1.5 m in front of you, already yours (not shop stock), and it is saved with your game.
+
+The list is read from the game's item table each time the window opens, so items added by other mods are included. Up to 200 matches are shown; type more to narrow it down.
+
+While this window is open the game's own keys are off, so typing does not walk you around or use the 1-5 inventory keys. Mods that read the keyboard directly can still react to what you type. Esc closes this window first, then the panel.
 
 ### Invisible motor
 

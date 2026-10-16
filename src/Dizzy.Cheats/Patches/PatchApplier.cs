@@ -49,11 +49,45 @@ namespace Dizzy.Cheats.Patches
                 typeof(StartMenuPatches),
                 nameof(StartMenuPatches.LateUpdatePrefix),
                 null);
+
+            // The item window needs all three key reads silenced to keep typing from
+            // driving the game; scroll and the 1-5 hotkeys are extras.
+            Type[] inputName = { typeof(InputName) };
+            bool keysBlocked = true;
+            foreach (string read in new[] { nameof(GameInput.GetKey), nameof(GameInput.GetKeyDown), nameof(GameInput.GetKeyUp) })
+            {
+                keysBlocked &= TryPatch(
+                    harmony,
+                    typeof(GameInput),
+                    read,
+                    typeof(GameInputPatches),
+                    nameof(GameInputPatches.KeyPrefix),
+                    null,
+                    inputName);
+            }
+
+            ItemSpawnWindow.GameKeysBlocked = keysBlocked;
+
+            TryPatch(
+                harmony,
+                typeof(GameInput),
+                nameof(GameInput.GetScrollAxis),
+                typeof(GameInputPatches),
+                nameof(GameInputPatches.ScrollPrefix),
+                null);
+
+            TryPatch(
+                harmony,
+                typeof(InventoryHotkeys),
+                "Update",
+                typeof(GameInputPatches),
+                nameof(GameInputPatches.InventoryHotkeysUpdatePrefix),
+                null);
         }
 
-        private static bool TryPatch(Harmony harmony, Type target, string methodName, Type patchType, string prefixName, string postfixName)
+        private static bool TryPatch(Harmony harmony, Type target, string methodName, Type patchType, string prefixName, string postfixName, Type[] parameters = null)
         {
-            MethodInfo original = AccessTools.DeclaredMethod(target, methodName, Type.EmptyTypes);
+            MethodInfo original = AccessTools.DeclaredMethod(target, methodName, parameters ?? Type.EmptyTypes);
             MethodInfo prefix = prefixName != null ? AccessTools.DeclaredMethod(patchType, prefixName) : null;
             MethodInfo postfix = postfixName != null ? AccessTools.DeclaredMethod(patchType, postfixName) : null;
             if (original == null || (prefixName != null && prefix == null) || (postfixName != null && postfix == null))

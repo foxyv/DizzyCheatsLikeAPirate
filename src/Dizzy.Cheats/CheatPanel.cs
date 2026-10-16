@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Dizzy.Cheats
 {
-    // IMGUI panel: cheat switches, needs sliders and gold.
+    // IMGUI panel: cheat switches, needs sliders, gold, and the item spawn window.
     //
     // Cursor rules, learned the hard way against the Esc menu and Sailwind Console
     // (which opens on the same key, but only while the Esc menu is up):
@@ -41,17 +41,26 @@ namespace Dizzy.Cheats
         // because the panel itself holds the cursor menu.
         internal static void Update()
         {
+            // The item window switches the game's keys off while it is open, so it must
+            // never outlive the panel.
+            if (!_open && ItemSpawnWindow.IsOpen)
+                ItemSpawnWindow.Close();
+
             if (_open && OtherMenuTookOver())
             {
                 StepAside();
                 return;
             }
 
-            // Esc closes the panel the way it closes the game's shop and mission windows.
+            // Esc closes one window at a time, the way it closes the game's shop and
+            // mission windows: the item window first, then the panel.
             if (_open && MenuKeyDown())
             {
                 EscapeFrame = Time.frameCount;
-                SetOpen(false);
+                if (ItemSpawnWindow.IsOpen)
+                    ItemSpawnWindow.Close();
+                else
+                    SetOpen(false);
                 return;
             }
 
@@ -89,6 +98,7 @@ namespace Dizzy.Cheats
             }
 
             _rect = GUILayout.Window(Plugin.PluginGuid.GetHashCode(), _rect, Draw, Plugin.PluginName, GUILayout.Width(Width));
+            ItemSpawnWindow.OnGUI();
         }
 
         private static void HandleToggle()
@@ -139,6 +149,10 @@ namespace Dizzy.Cheats
 
             GUILayout.Space(8f);
             DrawGold();
+
+            GUILayout.Space(8f);
+            if (GUILayout.Button("Spawn an Item"))
+                ItemSpawnWindow.Toggle(_rect);
 
             GUI.DragWindow();
         }
@@ -205,6 +219,7 @@ namespace Dizzy.Cheats
 
             // The panel only opens over plain gameplay, so closing hands gameplay back.
             _centered = false;
+            ItemSpawnWindow.Close();
             if (OtherMenuTookOver())
                 return;
             MouseLook.ToggleMouseLookAndCursor(true);
@@ -215,6 +230,7 @@ namespace Dizzy.Cheats
         {
             _open = false;
             _centered = false;
+            ItemSpawnWindow.Close();
         }
 
         // Sets inCursorMenu and frees the cursor; reapplied every frame in case the game
